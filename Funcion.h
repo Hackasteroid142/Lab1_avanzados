@@ -67,13 +67,13 @@ int calcularCosto(int** matriz,int camino[],int cantidadVertices){
 }
 
 
-int mejorCamino(int** matriz,caminos* posibles){
+int mejorCamino(int** matriz,caminos* posibles,int cantidadVertices){
 	caminos* aux = posibles->inicio;
 	//ImprimirCaminos(posibles);
 	int mejor = 20000;
 	//int buenCamino[4];
 	while(aux != NULL){
-		int costo = calcularCosto(matriz,aux->camino,4);
+		int costo = calcularCosto(matriz,aux->camino,cantidadVertices) + 2;
 		printf("COSTO = %i\n",costo);
 		if(costo<mejor){
 			mejor = costo;
@@ -125,6 +125,16 @@ int** rellenarMatriz(char** info,int tamano){
 		matriz[columna][fila] = atoi(strValor);
 	}
 	return matriz;
+}
+
+void escribirArchivo(FILE* archivo,int mejor,caminos* posibles,int cantidadVertices){
+	fprintf(archivo, "%i\n",mejor);
+	fprintf(archivo, "%i-",0);
+	for(int i=0;i<cantidadVertices;i++){
+		fprintf(archivo, "%i-",posibles->mejor[i]);
+	}
+	fprintf(archivo, "%i",0);
+	//fprintf(archivo, "%i %i %i %\n", );
 }
 
 
