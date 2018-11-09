@@ -4,7 +4,7 @@
 
 int main(){
 	char** info = (char**)malloc(1000*sizeof(char*));
-	int tamano = leerArchivo("test4.txt",info);
+	int tamano = leerArchivo("input10.txt",info);
 	printf("%i\n", tamano);
 	int** matrix2 = rellenarMatriz(info,tamano);
 	for(int i = 0;i<4;i++){
@@ -28,7 +28,9 @@ int main(){
 	}
 	//ImprimirCaminos(prueba);
 	int solucion[4];
-	int solucionValor = mejorCamino(matrix2,prueba);
+	int solucionValor = mejorCamino(matrix2,prueba,cantidadVertices);
 	printf("%i %i %i %i\n",prueba->mejor[0],prueba->mejor[1],prueba->mejor[2],prueba->mejor[3]);
+	FILE* nuevo = fopen("solucion","wt");
+	escribirArchivo(nuevo,solucionValor,prueba,cantidadVertices);
 	return 0;
 }
