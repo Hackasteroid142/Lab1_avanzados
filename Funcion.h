@@ -136,6 +136,24 @@ void encontrarCamino(int vertice,int contador,int total,int lista[],int* visitad
 }
 
 /*
+	Entrada: cantidad de vertices, matriz de adyacencia y lista enlazada vacia.
+	Proceso: Genera todos los posibles caminos de un grafo y busca el de menor costo.
+	Salida: Costo del camino mas corto.
+*/
+int BruteForce(int cantidadVertices,int** matriz,caminos* opciones){
+	int* visitados = (int*)malloc(cantidadVertices*sizeof(int));
+	for(int i=1;i<cantidadVertices+1;i++){
+		int nuevoCamino[cantidadVertices];
+		nuevoCamino[0] = i;
+		int num = 0;
+		encontrarCamino(i,1,cantidadVertices,nuevoCamino,visitados,opciones);
+	}
+	int solucionValor = mejorCamino(matriz,opciones,cantidadVertices);
+	return solucionValor;
+}
+
+
+/*
 	Entrada: lista de string con informacion y tamaño de la lista.
 	Proceso: Crea la matriz de adyacencia con la informacion del archivo.
 	Salida: matriz de adyacencia del grafo.
