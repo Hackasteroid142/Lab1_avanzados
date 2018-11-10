@@ -2,26 +2,16 @@
 #include"Funcion.h"
 #include<string.h>
 
-
-
 int main(){
-	char** info = (char**)malloc(1000*sizeof(char*));
-	int tamano = leerArchivo("test4.txt",info);
-	int** matrix2 = rellenarMatriz(info,tamano);
-	int cantidadVertices = atoi(info[0]);
-	int* num2 = (int*)malloc(cantidadVertices*sizeof(int));
-	int** prueba2 = (int**)malloc(6*sizeof(int*));
-	caminos* prueba = crearCamino();
-	for(int i=1;i<cantidadVertices+1;i++){
-		int test[cantidadVertices];
-		test[0] = i;
-		int num = 0;
-		encontrarCamino(i,1,cantidadVertices,test,num2,prueba);
-	}
-	int solucionValor = mejorCamino(matrix2,prueba,cantidadVertices);
+	char** infoArchivo = (char**)malloc(1000*sizeof(char*));
+	int tamano = leerArchivo("test4.txt",infoArchivo);
+	int** matriz = rellenarMatriz(infoArchivo,tamano);
+	int cantidadVertices = atoi(infoArchivo[0]);
+	caminos* opciones = crearCamino();
+	int solucionValor = BruteForce(cantidadVertices,matriz,opciones);
 	FILE* nuevo = fopen("solucion","wt");
-	escribirArchivo(nuevo,solucionValor,prueba,cantidadVertices);
-	printCurrent(prueba,cantidadVertices,matrix2);
+	escribirArchivo(nuevo,solucionValor,opciones,cantidadVertices);
+	printCurrent(opciones,cantidadVertices,matriz);
 	printf("Programa finalizado, el archivo ha sido creado.\n");
 	return 0;
 }
