@@ -2,6 +2,11 @@
 #include<stdlib.h>
 #include<string.h>
 
+
+/*
+	Estructura de la lista enlazada donde se tiene dos array, uno para el camino encontrado y otro para el mejor
+	camino que de todos los encontrados.
+*/
 struct Caminos
 {	
 	struct Caminos* inicio;
@@ -12,7 +17,9 @@ struct Caminos
 };
 typedef struct Caminos caminos;
 
-
+/*
+	Crea la estructura camino.
+*/
 caminos* crearCamino(){
 	caminos* aux = (caminos*)malloc(sizeof(caminos));
 	aux->inicio = NULL;
@@ -20,6 +27,11 @@ caminos* crearCamino(){
 	aux->siguiente = NULL;
 }
 
+/*
+	Entrada: lista de caminos posibles y nuevo camino encontrado.
+	Proceso: Ingresa al final de la lista enlazada el nuevo camino encontrado.
+	Salida: Lista con nuevo camino encontrado.
+*/
 void ingresarCamino(caminos* lista,caminos* posibleCamino){
 	if(lista->inicio == NULL){
 		lista->inicio = posibleCamino;
@@ -32,13 +44,10 @@ void ingresarCamino(caminos* lista,caminos* posibleCamino){
 }
 
 /*
-void imprimirCamino(int camino[],int cantidadVertices){
-	for(int i=0;i<cantidadVertices;i++){
-		printf("%i ",camino[i] );
-	}
-	printf("\n");
-}*/
-
+	Entrada: matriz de adyacencia, camino y cantidad de vertices.
+	Proceso: Calcula el costo del camino ingresado.
+	Salida: Costo del camino.
+*/
 int calcularCosto(int** matriz,int camino[],int cantidadVertices){
 	int costo = 0;
 	for(int i=0;i<cantidadVertices-1;i++){
@@ -47,7 +56,10 @@ int calcularCosto(int** matriz,int camino[],int cantidadVertices){
 	return costo;
 }
 
-
+/*
+	Entrada: lista de los caminos posibles, cantidad de vertices y matriz de adyacencia.
+	Proceso: Muestra la informacion de los caminos.
+*/
 void printCurrent(caminos* lista,int cantidadVertices,int** matriz){
 	#ifdef DEBUG
 	caminos* aux = lista->inicio;
@@ -61,7 +73,11 @@ void printCurrent(caminos* lista,int cantidadVertices,int** matriz){
 	#endif
 }
 
-
+/*
+	Entrada: Tamaño de la matriz.
+	Proceso: Crea una matriz de 0.
+	Salida: Matriz.
+*/
 int** formarMatriz(int tamano){
 	int** matriz = (int**)malloc(tamano*sizeof(int*));
 	for(int i=0;i<tamano;i++){
@@ -74,8 +90,11 @@ int** formarMatriz(int tamano){
 	return matriz;
 }
 
-
-
+/*
+	Entrada: Matriz de adyacencia, caminos posibles encontrados y la cantidad de vertices utilizada.
+	Proceso: Calcula el costo de cada camino segun la matriz y deja el camino de menor costo. 
+	Salida: Costo del menor camino.
+*/
 int mejorCamino(int** matriz,caminos* posibles,int cantidadVertices){
 	caminos* aux = posibles->inicio;
 	int mejor = 20000;
@@ -90,6 +109,13 @@ int mejorCamino(int** matriz,caminos* posibles,int cantidadVertices){
 	return mejor;
 }
 
+/*
+	Entrada: vertice inicial, contador, total de vertices, lista vacia, lista vacia que indica los vertices visitados, 
+	lista de adyacencia donde se guarda la informacion de los caminos.
+	Proceso: A partir de un nodo inicial va recorriendo los nodos adyacentes, los cuales pasan a ser vertices iniciales y se repite
+	el proceso hasta recorrer todos los vertices y guardar el camino.
+	Salida: Los posibles caminos de un grafo.
+*/
 void encontrarCamino(int vertice,int contador,int total,int lista[],int* visitados,caminos* posibles){
 	if(contador == total){
 		caminos* aux = crearCamino();
@@ -109,6 +135,11 @@ void encontrarCamino(int vertice,int contador,int total,int lista[],int* visitad
 	}
 }
 
+/*
+	Entrada: lista de string con informacion y tamaño de la lista.
+	Proceso: Crea la matriz de adyacencia con la informacion del archivo.
+	Salida: matriz de adyacencia del grafo.
+*/
 int** rellenarMatriz(char** info,int tamano){
 	int** matriz = formarMatriz(atoi(info[0]));
 	for(int i=1;i<tamano;i++){
@@ -123,6 +154,11 @@ int** rellenarMatriz(char** info,int tamano){
 	return matriz;
 }
 
+/*
+	Entrada: archivo vacio, costo del mejor camino, lista de caminos y cantidad de vertices del grafo.
+	Proceso: Escribe el archivo de salida.
+	Salida: Archivo con informacion del mejor camino. 
+*/
 void escribirArchivo(FILE* archivo,int mejor,caminos* posibles,int cantidadVertices){
 	fprintf(archivo, "%i\n",mejor);
 	fprintf(archivo, "%i-",0);
@@ -133,7 +169,11 @@ void escribirArchivo(FILE* archivo,int mejor,caminos* posibles,int cantidadVerti
 }
 
 
-
+/*
+	Entrada: nombre del archivo y lista de string vacias.
+	Proceso: Recorre el archivo linea por linea y guarda la informacion de cada una en la lista de string.
+	Salida: El largo de la lista de string.
+*/
 int leerArchivo(char* nombre,char** info){
 	FILE* arch;
 	arch = fopen(nombre,"r");
