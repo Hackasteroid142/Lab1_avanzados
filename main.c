@@ -2,10 +2,11 @@
 #include"Funcion.h"
 #include<string.h>
 
+
+
 int main(){
 	char** info = (char**)malloc(1000*sizeof(char*));
 	int tamano = leerArchivo("test4.txt",info);
-	printf("%i\n", tamano);
 	int** matrix2 = rellenarMatriz(info,tamano);
 	int cantidadVertices = atoi(info[0]);
 	int* num2 = (int*)malloc(cantidadVertices*sizeof(int));
@@ -20,5 +21,7 @@ int main(){
 	int solucionValor = mejorCamino(matrix2,prueba,cantidadVertices);
 	FILE* nuevo = fopen("solucion","wt");
 	escribirArchivo(nuevo,solucionValor,prueba,cantidadVertices);
+	printCurrent(prueba,cantidadVertices,matrix2);
+	printf("Programa finalizado, el archivo ha sido creado.\n");
 	return 0;
 }
